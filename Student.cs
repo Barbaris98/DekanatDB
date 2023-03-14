@@ -8,7 +8,7 @@ namespace DekanatDB
 {
     public class Student
     {
-
+        //
 
     }
 }
