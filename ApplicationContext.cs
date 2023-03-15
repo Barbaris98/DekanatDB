@@ -14,14 +14,12 @@ namespace DekanatDB
         public DbSet<Student> Students { get; set; } = null!;
         public ApplicationContext()
         {
-            //Database.EnsureDeleted();   // удаляем бд со старой схемой
             Database.EnsureCreated();   // создаем бд с новой схемой
-
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=Products.db");
+            optionsBuilder.UseSqlite("Data Source=Students.db");
         }
 
     }
