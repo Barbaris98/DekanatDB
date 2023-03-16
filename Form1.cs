@@ -27,7 +27,7 @@ namespace DekanatDB
 
             }
 
-
+            //добавление сущностей
             using (ApplicationContext db = new ApplicationContext())
             {
                 
@@ -224,19 +224,106 @@ namespace DekanatDB
                     s16, s17, s18, s19, s20);
                 db.SaveChanges();
             }
-            
-
-
+            MessageBox.Show("БД обновлена по-умолчанию!");
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)//вывод БД по Студентам
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 db.Students.Load();
 
                 dataGridView1.DataSource = db.Students.ToList();
+
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)//добавить
+        {
+            StudentsForm studentsForm = new StudentsForm();
+
+            DialogResult result = studentsForm.ShowDialog(this);
+            if (result == DialogResult.Cancel)
+                return;
+
+            Student student = new Student();
+            student.LastName = studentsForm.textBox1.Text;
+            student.Name = studentsForm.textBox2.Text;
+            student.MiddleName = studentsForm.textBox3.Text;
+            student.RecordNumber = Convert.ToInt32(studentsForm.textBox4.Text);
+            //можно не заполнять свойство
+            try
+            {
+                student.DateOfBirth = studentsForm.textBox5.Text;
+            }
+            catch { }
+            //!!СДЕЛАЙ СЮДА ПРИЁМ И СШИВАНИЕ С ИМЕЮЩИМЯ ФАУЛЬТЕТЕТОМ ПО АЙДИШНИКУ
+            student.FacultyId = Convert.ToInt32(studentsForm.textBox6.Text);//!!!
+
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                db.Students.Add(student);
+                db.SaveChanges();
+
+                db.Students.Load();
+                dataGridView1.DataSource = db.Students.ToList();
+            }
+
+            MessageBox.Show("Студент добавлен!");
+
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                    int index = dataGridView1.SelectedRows[0].Index;
+                    int id = 0;
+                    bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+                    if (converted == false)
+                        return;
+
+                    Student student = db.Students.Find(id);
+                    StudentsForm studentsForm = new StudentsForm();
+
+                    studentsForm.textBox1.Text = student.LastName;
+                    studentsForm.textBox2.Text = student.Name;
+                    studentsForm.textBox3.Text = student.MiddleName;
+                    studentsForm.textBox4.Text = student.RecordNumber.ToString();
+                    studentsForm.textBox5.Text = student.DateOfBirth;
+                    studentsForm.textBox4.Text = student.FacultyId.ToString();
+
+
+                    DialogResult result = productForm.ShowDialog(this);
+                    if (result == DialogResult.Cancel)
+                        return;
+
+                    student.LastName = studentsForm.textBox1.Text;
+                    student.Name = studentsForm.textBox2.Text;
+                    student.MiddleName = studentsForm.textBox3.Text;
+                    student.RecordNumber = Convert.ToInt32(studentsForm.textBox4.Text);
+                    //можно не заполнять свойство
+                    try
+                    {
+                        student.DateOfBirth = studentsForm.textBox5.Text;
+                    }
+                    catch { }
+                    //!!СДЕЛАЙ СЮДА ПРИЁМ И СШИВАНИЕ С ИМЕЮЩИМЯ ФАУЛЬТЕТЕТОМ ПО АЙДИШНИКУ
+                    student.FacultyId = Convert.ToInt32(studentsForm.textBox6.Text);//!!!
+
+                    db.Students.Add(student);
+                    db.SaveChanges();
+
+                    db.Students.Load();
+                    dataGridView1.DataSource = db.Students.ToList();
+
+                    MessageBox.Show("Объект изменён!");
+
+                }
 
             }
         }

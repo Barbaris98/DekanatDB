@@ -61,7 +61,7 @@
             this.сервисToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1044, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1184, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -101,7 +101,7 @@
             this.tabControl1.Location = new System.Drawing.Point(9, 52);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1023, 487);
+            this.tabControl1.Size = new System.Drawing.Size(1130, 487);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -114,7 +114,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1015, 459);
+            this.tabPage1.Size = new System.Drawing.Size(1122, 459);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -122,7 +122,7 @@
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(835, 140);
+            this.button1.Location = new System.Drawing.Point(939, 134);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(146, 63);
             this.button1.TabIndex = 2;
@@ -136,33 +136,35 @@
             this.dataGridView1.Location = new System.Drawing.Point(6, 6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(784, 317);
+            this.dataGridView1.Size = new System.Drawing.Size(912, 317);
             this.dataGridView1.TabIndex = 6;
             // 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button2.Location = new System.Drawing.Point(29, 353);
+            this.button2.Location = new System.Drawing.Point(137, 358);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(146, 63);
             this.button2.TabIndex = 3;
             this.button2.Text = "Добавить";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button3.Location = new System.Drawing.Point(251, 353);
+            this.button3.Location = new System.Drawing.Point(359, 358);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(146, 63);
             this.button3.TabIndex = 4;
             this.button3.Text = "Редактировать";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button4.Location = new System.Drawing.Point(467, 353);
+            this.button4.Location = new System.Drawing.Point(575, 358);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(146, 63);
             this.button4.TabIndex = 5;
@@ -179,7 +181,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1015, 459);
+            this.tabPage2.Size = new System.Drawing.Size(1122, 459);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -237,7 +239,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1044, 551);
+            this.ClientSize = new System.Drawing.Size(1184, 551);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
