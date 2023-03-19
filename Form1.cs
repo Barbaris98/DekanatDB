@@ -15,6 +15,9 @@ namespace DekanatDB
         public MainForm()
         {
             InitializeComponent();
+
+
+
         }
 
 
@@ -247,22 +250,35 @@ namespace DekanatDB
             if (result == DialogResult.Cancel)
                 return;
 
-            Student student = new Student();
-            student.LastName = studentsForm.textBox1.Text;
-            student.Name = studentsForm.textBox2.Text;
-            student.MiddleName = studentsForm.textBox3.Text;
-            student.RecordNumber = Convert.ToInt32(studentsForm.textBox4.Text);
-            //можно не заполнять свойство
-            try
-            {
-                student.DateOfBirth = studentsForm.textBox5.Text;
-            }
-            catch { }
-            //!!СДЕЛАЙ СЮДА ПРИЁМ И СШИВАНИЕ С ИМЕЮЩИМЯ ФАУЛЬТЕТЕТОМ ПО АЙДИШНИКУ
-            student.FacultyId = Convert.ToInt32(studentsForm.textBox6.Text);//!!!
-
             using (ApplicationContext db = new ApplicationContext())
             {
+                
+                Student student = new Student();
+
+                // можно и так...так короче запись
+                // student.FacultyId = int.Parse(studentsForm.textBox6.Text);
+                int x = int.Parse(studentsForm.textBox6.Text);
+                Faculty faculty = db.Facultys.FirstOrDefault(faculty => faculty.Id == x);
+                student.Faculty = faculty;
+
+                student.LastName = studentsForm.textBox1.Text;
+                student.Name = studentsForm.textBox2.Text;
+
+
+                //можно не заполнять свойство
+                try
+                {
+                    student.MiddleName = studentsForm.textBox3.Text;
+                }
+                catch { }
+                student.RecordNumber = Convert.ToInt32(studentsForm.textBox4.Text);
+                try
+                {
+                    student.DateOfBirth = studentsForm.textBox5.Text;
+                }
+                catch { }
+
+                
                 db.Students.Add(student);
                 db.SaveChanges();
 
@@ -275,7 +291,7 @@ namespace DekanatDB
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)//редактировать
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -290,17 +306,22 @@ namespace DekanatDB
                     Student student = db.Students.Find(id);
                     StudentsForm studentsForm = new StudentsForm();
 
+
                     studentsForm.textBox1.Text = student.LastName;
                     studentsForm.textBox2.Text = student.Name;
                     studentsForm.textBox3.Text = student.MiddleName;
                     studentsForm.textBox4.Text = student.RecordNumber.ToString();
                     studentsForm.textBox5.Text = student.DateOfBirth;
-                    studentsForm.textBox4.Text = student.FacultyId.ToString();
+                    studentsForm.textBox6.Text = student.FacultyId.ToString();
 
 
-                    DialogResult result = productForm.ShowDialog(this);
+                    DialogResult result = studentsForm.ShowDialog(this);
                     if (result == DialogResult.Cancel)
                         return;
+
+
+                    //здеся походу пизда
+                    student.FacultyId = int.Parse(studentsForm.textBox6.Text);
 
                     student.LastName = studentsForm.textBox1.Text;
                     student.Name = studentsForm.textBox2.Text;
@@ -312,9 +333,9 @@ namespace DekanatDB
                         student.DateOfBirth = studentsForm.textBox5.Text;
                     }
                     catch { }
-                    //!!СДЕЛАЙ СЮДА ПРИЁМ И СШИВАНИЕ С ИМЕЮЩИМЯ ФАУЛЬТЕТЕТОМ ПО АЙДИШНИКУ
-                    student.FacultyId = Convert.ToInt32(studentsForm.textBox6.Text);//!!!
 
+                    student.FacultyId = int.Parse(studentsForm.textBox6.Text);
+                    
                     db.Students.Add(student);
                     db.SaveChanges();
 
@@ -324,6 +345,135 @@ namespace DekanatDB
                     MessageBox.Show("Объект изменён!");
 
                 }
+
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)//удалить
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                if (dataGridView1.SelectedRows.Count > 0)
+                {
+                    int index = dataGridView1.SelectedRows[0].Index;
+                    int id = 0;
+                    bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+                    if (converted == false)
+                        return;
+
+                    Student student = db.Students.Find(id);
+                    db.Students.Remove(student);
+                    db.SaveChanges();
+
+                    MessageBox.Show("Объект удален");
+                }
+                //автообновление вывода dataGridView1
+                db.Students.Load();// вроде не нужен.... но пусть будет,
+                                   // ещё раз загрузим в контекст/ обноввим его 
+
+                dataGridView1.DataSource = db.Students.ToList();
+
+            }
+
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)// вывод БД по факультетам
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                db.Facultys.Load();
+
+                dataGridView2.DataSource = db.Facultys.ToList();
+
+            }
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)// Добавить
+        {
+            
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                FacultyForm facultyForm = new FacultyForm();
+
+                DialogResult result = facultyForm.ShowDialog(this);
+                if (result == DialogResult.Cancel)
+                    return;
+
+                Faculty faculty = new Faculty();
+                faculty.NameFaculty = facultyForm.textBox1.Text;
+
+                db.Facultys.Add(faculty);
+                db.SaveChanges();
+
+                db.Facultys.Load();
+                dataGridView2.DataSource = db.Facultys.ToList();
+            }
+
+            MessageBox.Show("Студент добавлен!");
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)// Редактировать
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                if (dataGridView2.SelectedRows.Count > 0)
+                {
+                    int index = dataGridView2.SelectedRows[0].Index;
+                    int id = 0;
+                    bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+                    if (converted == false)
+                        return;
+
+                    Faculty faculty = db.Facultys.Find(id);
+                    FacultyForm facultyForm = new FacultyForm();
+
+                    facultyForm.textBox1.Text = faculty.NameFaculty;
+                    
+                    DialogResult result = facultyForm.ShowDialog(this);
+                    if (result == DialogResult.Cancel)
+                        return;
+
+                    faculty.NameFaculty = facultyForm.textBox1.Text;
+                    
+                    db.Facultys.Add(faculty);
+                    db.SaveChanges();
+
+                    db.Facultys.Load();
+                    dataGridView2.DataSource = db.Facultys.ToList();
+
+                }
+
+                MessageBox.Show("Объект изменён!");
+            }
+
+        }
+
+        private void button8_Click(object sender, EventArgs e) // удалить
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                if (dataGridView2.SelectedRows.Count > 0)
+                {
+                    int index = dataGridView1.SelectedRows[0].Index;
+                    int id = 0;
+                    bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+                    if (converted == false)
+                        return;
+
+                    Faculty faculty = db.Facultys.Find(id);
+                    db.Facultys.Remove(faculty);
+                    db.SaveChanges();
+
+                }
+
+                MessageBox.Show("Объект удален");
+
+                //автообновление вывода dataGridView
+                db.Facultys.Load();
+                dataGridView2.DataSource = db.Facultys.ToList();
 
             }
         }

@@ -45,6 +45,7 @@
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -73,9 +74,9 @@
             this.label3.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label3.Location = new System.Drawing.Point(28, 146);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(86, 21);
+            this.label3.Size = new System.Drawing.Size(95, 21);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Отчество";
+            this.label3.Text = "Отчество*";
             // 
             // label4
             // 
@@ -93,9 +94,9 @@
             this.label5.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label5.Location = new System.Drawing.Point(28, 262);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(132, 21);
+            this.label5.Size = new System.Drawing.Size(141, 21);
             this.label5.TabIndex = 4;
-            this.label5.Text = "Дата рождения";
+            this.label5.Text = "Дата рождения*";
             // 
             // label6
             // 
@@ -187,6 +188,7 @@
             // 
             // button1
             // 
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.button1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button1.Location = new System.Drawing.Point(131, 512);
             this.button1.Name = "button1";
@@ -197,6 +199,7 @@
             // 
             // button2
             // 
+            this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button2.Location = new System.Drawing.Point(318, 512);
             this.button2.Name = "button2";
@@ -205,11 +208,22 @@
             this.button2.Text = "Отмена";
             this.button2.UseVisualStyleBackColor = true;
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label10.Location = new System.Drawing.Point(12, 581);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(227, 19);
+            this.label10.TabIndex = 17;
+            this.label10.Text = "*Поле допускается не указывать";
+            // 
             // StudentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(576, 590);
+            this.ClientSize = new System.Drawing.Size(576, 622);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox6);
@@ -253,5 +267,6 @@
         protected internal TextBox textBox6;
         protected internal Button button1;
         protected internal Button button2;
+        private Label label10;
     }
 }
