@@ -327,7 +327,7 @@ namespace DekanatDB
 
                     student.FacultyId = int.Parse(studentsForm.textBox6.Text);
                     
-                    db.Students.Add(student);
+                    db.Students.Update(student);
                     db.SaveChanges();
 
                     db.Students.Load();
