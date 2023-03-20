@@ -252,17 +252,9 @@ namespace DekanatDB
 
             using (ApplicationContext db = new ApplicationContext())
             {
-                
                 Student student = new Student();
-
                 // можно и так...так короче запись
-                // student.FacultyId = int.Parse(studentsForm.textBox6.Text);
-                int x = int.Parse(studentsForm.textBox6.Text);
-                Faculty faculty = db.Facultys.FirstOrDefault(faculty => faculty.Id == x);
-                student.Faculty = faculty;
-
-                student.LastName = studentsForm.textBox1.Text;
-                student.Name = studentsForm.textBox2.Text;
+                student.FacultyId = int.Parse(studentsForm.textBox6.Text);
 
 
                 //можно не заполнять свойство
@@ -319,8 +311,7 @@ namespace DekanatDB
                     if (result == DialogResult.Cancel)
                         return;
 
-
-                    //здеся походу пизда
+                    //здеся походу проблема
                     student.FacultyId = int.Parse(studentsForm.textBox6.Text);
 
                     student.LastName = studentsForm.textBox1.Text;
