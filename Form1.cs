@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Drawing;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace DekanatDB
 {
@@ -14,10 +15,16 @@ namespace DekanatDB
     {
         public MainForm()
         {
+
             InitializeComponent();
 
-
-
+            
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                db.Students.LoadAsync();
+                db.Facultys.LoadAsync();
+            }
+            
         }
 
 
@@ -253,9 +260,6 @@ namespace DekanatDB
             using (ApplicationContext db = new ApplicationContext())
             {
                 Student student = new Student();
-                // можно и так...так короче запись
-                student.FacultyId = int.Parse(studentsForm.textBox6.Text);
-
 
                 //можно не заполнять свойство
                 try
@@ -270,7 +274,9 @@ namespace DekanatDB
                 }
                 catch { }
 
-                
+                // можно и так...так короче запись
+                student.FacultyId = int.Parse(studentsForm.textBox6.Text);
+
                 db.Students.Add(student);
                 db.SaveChanges();
 
@@ -279,7 +285,6 @@ namespace DekanatDB
             }
 
             MessageBox.Show("Студент добавлен!");
-
 
         }
 
@@ -298,7 +303,6 @@ namespace DekanatDB
                     Student student = db.Students.Find(id);
                     StudentsForm studentsForm = new StudentsForm();
 
-
                     studentsForm.textBox1.Text = student.LastName;
                     studentsForm.textBox2.Text = student.Name;
                     studentsForm.textBox3.Text = student.MiddleName;
@@ -306,13 +310,9 @@ namespace DekanatDB
                     studentsForm.textBox5.Text = student.DateOfBirth;
                     studentsForm.textBox6.Text = student.FacultyId.ToString();
 
-
                     DialogResult result = studentsForm.ShowDialog(this);
                     if (result == DialogResult.Cancel)
                         return;
-
-                    //здеся походу проблема
-                    student.FacultyId = int.Parse(studentsForm.textBox6.Text);
 
                     student.LastName = studentsForm.textBox1.Text;
                     student.Name = studentsForm.textBox2.Text;
@@ -326,7 +326,7 @@ namespace DekanatDB
                     catch { }
 
                     student.FacultyId = int.Parse(studentsForm.textBox6.Text);
-                    
+
                     db.Students.Update(student);
                     db.SaveChanges();
 
@@ -402,7 +402,7 @@ namespace DekanatDB
                 dataGridView2.DataSource = db.Facultys.ToList();
             }
 
-            MessageBox.Show("Студент добавлен!");
+            MessageBox.Show("Факультет добавлен!");
 
         }
 
@@ -414,7 +414,7 @@ namespace DekanatDB
                 {
                     int index = dataGridView2.SelectedRows[0].Index;
                     int id = 0;
-                    bool converted = Int32.TryParse(dataGridView1[0, index].Value.ToString(), out id);
+                    bool converted = Int32.TryParse(dataGridView2[0, index].Value.ToString(), out id);
                     if (converted == false)
                         return;
 
@@ -429,7 +429,7 @@ namespace DekanatDB
 
                     faculty.NameFaculty = facultyForm.textBox1.Text;
                     
-                    db.Facultys.Add(faculty);
+                    db.Facultys.Update(faculty);
                     db.SaveChanges();
 
                     db.Facultys.Load();
@@ -467,6 +467,78 @@ namespace DekanatDB
                 dataGridView2.DataSource = db.Facultys.ToList();
 
             }
+        }
+
+        private void экспортВExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var path = Path.Combine(Environment.CurrentDirectory, "Export", "export.xlsx");
+
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                // так всё работает, топорно ,но работает 
+                /*
+                var products = db.Products.ToList();
+                var workBook = new XLWorkbook();
+
+                var sheet = workBook.Worksheets.Add("Products");
+
+                sheet.Cell("A1").InsertTable(products);
+                workBook.SaveAs(path);
+
+                //смотри https://github.com/ClosedXML/ClosedXML/wiki
+                // примеры есть, но несовсем понял... просто втавил таблицу
+                //                                      по первой ячейке
+                */
+
+                var students = db.Students.ToList();
+                XLWorkbook workBook = new XLWorkbook();
+
+                var sheet = workBook.Worksheets.Add("Students");
+                var startRow = 2;
+                int startCol = 1;
+
+                //делаем "шапку таблицы"
+                sheet.Cell("A1").Value = "Id";
+                sheet.Cell("B1").Value = "Фамилия";
+                sheet.Cell("C1").Value = "Имя";
+                sheet.Cell("D1").Value = "Отчество";
+                sheet.Cell("E1").Value = "№ зачётки";
+                sheet.Cell("F1").Value = "Дата рождения";
+                sheet.Cell("G1").Value = "№ Ф";
+
+                foreach (var item in students)
+                {
+                    sheet.Cell(startRow, startCol++).Value = item.Id;
+                    sheet.Cell(startRow, startCol++).Value = item.LastName;
+                    sheet.Cell(startRow, startCol++).Value = item.Name;
+                    sheet.Cell(startRow, startCol++).Value = item.MiddleName;
+                    sheet.Cell(startRow, startCol++).Value = item.RecordNumber;
+                    sheet.Cell(startRow, startCol++).Value = item.DateOfBirth;
+                    sheet.Cell(startRow, startCol).Value = item.FacultyId;
+                    sheet.Cell(startRow, startCol).Value = item.Faculty.ToString();
+
+                    startCol = 1;
+                    startRow++;
+                }
+                
+                /*
+                //настроим р-ры ячеек
+                sheet.Column(1).Width = 5;
+                sheet.Column(2).Width = 16;
+                sheet.Column(3).Width = 16;
+                sheet.Column(4).Width = 16;
+                sheet.Column(5).Width = 11;
+                sheet.Column(6).Width = 16;
+                sheet.Column(7).Width = 6;
+                */
+                // авт р-р ячеек по их содержимому
+                sheet.Columns(1, 7).AdjustToContents();
+
+                sheet.Row(1).Height = 25;
+                
+                workBook.SaveAs(path);
+            }
+
         }
     }
 }

@@ -46,6 +46,9 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.отчётыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.отчётПоСтудентамToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.экспортВExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -67,6 +70,8 @@
             // 
             // файлToolStripMenuItem
             // 
+            this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.отчётыToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
@@ -84,7 +89,7 @@
             this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.сброситьБДПоумолчаниюToolStripMenuItem});
             this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.настройкиToolStripMenuItem.Text = "Настройки";
             // 
             // сброситьБДПоумолчаниюToolStripMenuItem
@@ -136,6 +141,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(6, 6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 25;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(912, 317);
             this.dataGridView1.TabIndex = 6;
             // 
@@ -190,7 +196,7 @@
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button8.Location = new System.Drawing.Point(461, 358);
+            this.button8.Location = new System.Drawing.Point(455, 297);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(146, 63);
             this.button8.TabIndex = 11;
@@ -201,7 +207,7 @@
             // button7
             // 
             this.button7.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button7.Location = new System.Drawing.Point(252, 358);
+            this.button7.Location = new System.Drawing.Point(246, 297);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(146, 63);
             this.button7.TabIndex = 10;
@@ -212,7 +218,7 @@
             // button6
             // 
             this.button6.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button6.Location = new System.Drawing.Point(35, 358);
+            this.button6.Location = new System.Drawing.Point(29, 297);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(146, 63);
             this.button6.TabIndex = 9;
@@ -223,7 +229,7 @@
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.button5.Location = new System.Drawing.Point(742, 110);
+            this.button5.Location = new System.Drawing.Point(455, 93);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(146, 63);
             this.button5.TabIndex = 8;
@@ -237,8 +243,32 @@
             this.dataGridView2.Location = new System.Drawing.Point(6, 6);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowTemplate.Height = 25;
-            this.dataGridView2.Size = new System.Drawing.Size(601, 317);
+            this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView2.Size = new System.Drawing.Size(442, 259);
             this.dataGridView2.TabIndex = 7;
+            // 
+            // отчётыToolStripMenuItem
+            // 
+            this.отчётыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.отчётПоСтудентамToolStripMenuItem});
+            this.отчётыToolStripMenuItem.Name = "отчётыToolStripMenuItem";
+            this.отчётыToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.отчётыToolStripMenuItem.Text = "Отчёты";
+            // 
+            // отчётПоСтудентамToolStripMenuItem
+            // 
+            this.отчётПоСтудентамToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.экспортВExcelToolStripMenuItem});
+            this.отчётПоСтудентамToolStripMenuItem.Name = "отчётПоСтудентамToolStripMenuItem";
+            this.отчётПоСтудентамToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.отчётПоСтудентамToolStripMenuItem.Text = "Отчёт по Студентам";
+            // 
+            // экспортВExcelToolStripMenuItem
+            // 
+            this.экспортВExcelToolStripMenuItem.Name = "экспортВExcelToolStripMenuItem";
+            this.экспортВExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.экспортВExcelToolStripMenuItem.Text = "Экспорт в Excel";
+            this.экспортВExcelToolStripMenuItem.Click += new System.EventHandler(this.экспортВExcelToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -283,5 +313,8 @@
         protected internal DataGridView dataGridView2;
         private ToolStripMenuItem настройкиToolStripMenuItem;
         private ToolStripMenuItem сброситьБДПоумолчаниюToolStripMenuItem;
+        private ToolStripMenuItem отчётыToolStripMenuItem;
+        private ToolStripMenuItem отчётПоСтудентамToolStripMenuItem;
+        private ToolStripMenuItem экспортВExcelToolStripMenuItem;
     }
 }
