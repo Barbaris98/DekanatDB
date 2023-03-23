@@ -515,7 +515,7 @@ namespace DekanatDB
                     sheet.Cell(startRow, startCol++).Value = item.RecordNumber;
                     sheet.Cell(startRow, startCol++).Value = item.DateOfBirth;
                     sheet.Cell(startRow, startCol).Value = item.FacultyId;
-                    sheet.Cell(startRow, startCol).Value = item.Faculty.ToString();
+                    //sheet.Cell(startRow, startCol).Value = item.Faculty.ToString();
 
                     startCol = 1;
                     startRow++;
