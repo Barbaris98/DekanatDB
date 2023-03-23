@@ -469,9 +469,10 @@ namespace DekanatDB
             }
         }
 
+        //Отчёт по Студентам
         private void экспортВExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var path = Path.Combine(Environment.CurrentDirectory, "Export", "export.xlsx");
+            var path = Path.Combine(Environment.CurrentDirectory, "Export", "export_students.xlsx");
 
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -515,7 +516,11 @@ namespace DekanatDB
                     sheet.Cell(startRow, startCol++).Value = item.RecordNumber;
                     sheet.Cell(startRow, startCol++).Value = item.DateOfBirth;
                     sheet.Cell(startRow, startCol).Value = item.FacultyId;
-                    //sheet.Cell(startRow, startCol).Value = item.Faculty.ToString();
+
+                    sheet.Cell(startRow, startCol).Value = item.Faculty.Students.ToString();//!! Исправь этот баг!!
+                    // так тоже не работает...Students[1]...
+                    //sheet.Cell(startRow, startCol).Value = item.Faculty.Students[1].ToString();
+                    //Recipe recipe = db.Recipes.Include(r => r.Products).FirstOrDefault(x => x.Id == id);
 
                     startCol = 1;
                     startRow++;
@@ -531,14 +536,55 @@ namespace DekanatDB
                 sheet.Column(6).Width = 16;
                 sheet.Column(7).Width = 6;
                 */
-                // авт р-р ячеек по их содержимому
+                // авт. р-р ячеек по их содержимому
                 sheet.Columns(1, 7).AdjustToContents();
 
                 sheet.Row(1).Height = 25;
                 
                 workBook.SaveAs(path);
+
+                MessageBox.Show("Отчёт сформирован!");
             }
 
+        }
+
+        //Отчёт по Факультетам
+        private void экспортВExcelToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var path = Path.Combine(Environment.CurrentDirectory, "Export", "export_facultys.xlsx");
+
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var facultys = db.Facultys.ToList();
+                XLWorkbook workBook = new XLWorkbook();
+
+                var sheet = workBook.Worksheets.Add("Facultys");
+                var startRow = 2;
+                int startCol = 1;
+
+                //делаем "шапку таблицы"
+                sheet.Cell("A1").Value = "Id";
+                sheet.Cell("B1").Value = "Наименование";
+                sheet.Cell("С1").Value = "Тест";
+
+                foreach (var item in facultys)
+                {
+                    sheet.Cell(startRow, startCol++).Value = item.Id;
+                    sheet.Cell(startRow, startCol).Value = item.NameFaculty;
+
+                    startCol = 1;
+                    startRow++;
+                }
+
+                // авт. р-р ячеек по их содержимому
+                sheet.Columns(1, 2).AdjustToContents();
+                // увелич высоту первой строки
+                sheet.Row(1).Height = 25;
+
+                workBook.SaveAs(path);
+
+                MessageBox.Show("Отчёт сформирован!");
+            }
         }
     }
 }
