@@ -18,7 +18,16 @@ namespace DekanatDB
 
             InitializeComponent();
 
+            //создадим элемент меню
+            ToolStripMenuItem shoMore = new ToolStripMenuItem("Подробнее");
+            //Добавление элемента меню
+            contextMenuStrip1.Items.Add(shoMore);
+            //Ассоциируем контекстное меню с гридом
+            dataGridView2.ContextMenuStrip = contextMenuStrip1;
+            //Установим обработчик события для меню
+            shoMore.Click += shoMore_Click;
             
+
             using (ApplicationContext db = new ApplicationContext())
             {
                 db.Students.LoadAsync();
@@ -26,7 +35,6 @@ namespace DekanatDB
             }
             
         }
-
 
 
         private void сброситьБДПоумолчаниюToolStripMenuItem_Click(object sender, EventArgs e)
@@ -334,9 +342,7 @@ namespace DekanatDB
                     dataGridView1.DataSource = db.Students.ToList();
 
                     MessageBox.Show("Объект изменён!");
-
                 }
-
             }
         }
 
@@ -469,6 +475,35 @@ namespace DekanatDB
             }
         }
 
+        void shoMore_Click(object sender, EventArgs e)// ПКМ - на строке - Подробнее о Факультете
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                if (dataGridView2.SelectedRows.Count > 0)
+                {
+                    int id = int.Parse(dataGridView2.CurrentRow.Cells[0].Value.ToString());
+                    
+                    //по соответствующему id
+                    Faculty faculty = db.Facultys.Include(s => s.Students).FirstOrDefault(x => x.Id == id);
+
+                    FacultyInfo facultyInfo = new FacultyInfo();//созд и показать экз формы 
+
+                    facultyInfo.textBox1.Text = faculty.NameFaculty;
+                    facultyInfo.Show();
+
+                    try
+                    {
+                        facultyInfo.dataGridView1.DataSource = faculty.Students.ToList();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Ошибка");
+                    }
+
+                }
+            }
+        }
+
         //Отчёт по Студентам
         private void экспортВExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -517,25 +552,14 @@ namespace DekanatDB
                     sheet.Cell(startRow, startCol++).Value = item.DateOfBirth;
                     sheet.Cell(startRow, startCol).Value = item.FacultyId;
 
-                    sheet.Cell(startRow, startCol).Value = item.Faculty.Students.ToString();//!! Исправь этот баг!!
+                    //sheet.Cell(startRow, startCol).Value = item.Faculty.Students.ToString();//!! Исправь этот баг!!
                     // так тоже не работает...Students[1]...
                     //sheet.Cell(startRow, startCol).Value = item.Faculty.Students[1].ToString();
-                    //Recipe recipe = db.Recipes.Include(r => r.Products).FirstOrDefault(x => x.Id == id);
-
+                    
                     startCol = 1;
                     startRow++;
                 }
                 
-                /*
-                //настроим р-ры ячеек
-                sheet.Column(1).Width = 5;
-                sheet.Column(2).Width = 16;
-                sheet.Column(3).Width = 16;
-                sheet.Column(4).Width = 16;
-                sheet.Column(5).Width = 11;
-                sheet.Column(6).Width = 16;
-                sheet.Column(7).Width = 6;
-                */
                 // авт. р-р ячеек по их содержимому
                 sheet.Columns(1, 7).AdjustToContents();
 
@@ -565,7 +589,7 @@ namespace DekanatDB
                 //делаем "шапку таблицы"
                 sheet.Cell("A1").Value = "Id";
                 sheet.Cell("B1").Value = "Наименование";
-                sheet.Cell("С1").Value = "Тест";
+                
 
                 foreach (var item in facultys)
                 {
