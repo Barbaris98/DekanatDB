@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,11 +63,23 @@
             this.dataGridView1.Size = new System.Drawing.Size(861, 317);
             this.dataGridView1.TabIndex = 12;
             // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button2.Location = new System.Drawing.Point(600, 28);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(140, 52);
+            this.button2.TabIndex = 13;
+            this.button2.Text = "Экспорт в Excel";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // FacultyInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(897, 490);
+            this.ClientSize = new System.Drawing.Size(897, 433);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
@@ -83,5 +96,6 @@
         private Label label1;
         protected internal TextBox textBox1;
         protected internal DataGridView dataGridView1;
+        protected internal Button button2;
     }
 }

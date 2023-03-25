@@ -8,6 +8,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Drawing;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Office2010.Excel;
 
 namespace DekanatDB
 {
@@ -477,6 +479,8 @@ namespace DekanatDB
 
         void shoMore_Click(object sender, EventArgs e)// ПКМ - на строке - Подробнее о Факультете
         {
+            FacultyInfo facultyInfo = new FacultyInfo(this);//созд и показать экз формы 
+            
             using (ApplicationContext db = new ApplicationContext())
             {
                 if (dataGridView2.SelectedRows.Count > 0)
@@ -485,9 +489,7 @@ namespace DekanatDB
                     
                     //по соответствующему id
                     Faculty faculty = db.Facultys.Include(s => s.Students).FirstOrDefault(x => x.Id == id);
-
-                    FacultyInfo facultyInfo = new FacultyInfo();//созд и показать экз формы 
-
+                    
                     facultyInfo.textBox1.Text = faculty.NameFaculty;
                     facultyInfo.Show();
 
