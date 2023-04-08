@@ -17,7 +17,7 @@ namespace DekanatDB
     {
         public MainForm()
         {
-
+            
             InitializeComponent();
 
             //создадим элемент меню
@@ -38,6 +38,10 @@ namespace DekanatDB
             
         }
 
+        public int test_m(int a, int b)
+        {
+            return a + b;
+        }
 
         private void сброситьЅƒѕоумолчаниюToolStripMenuItem_Click(object sender, EventArgs e)
         {
